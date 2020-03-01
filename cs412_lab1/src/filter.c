@@ -124,8 +124,8 @@ void filter_blur(struct image *img, void *r) {
 
 /* We allocate and return a pixel */
 struct pixel *get_pixel() {
-  struct pixel px;
-  return &px;
+  struct pixel *px = malloc(sizeof(struct pixel));
+  return px;
 }
 
 /* This filter just negates every color in the image */
