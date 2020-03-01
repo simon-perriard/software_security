@@ -16,6 +16,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    if ((strlen(argv[1]) > sizeof(input)) ||
+        (strlen(argv[2]) > sizeof(output))) {
+        exit(1);
+    }
+
     // Copy the filenames into separate arrays for easier reference
     strcpy(input, argv[1]);
     strcpy(output, argv[2]);
