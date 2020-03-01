@@ -148,6 +148,7 @@ void filter_negative(struct image *img, void *noarg) {
 
       /* Write it back */
       image_data[i][j] = *neg;
+      free(neg);
     }
   }
 }
