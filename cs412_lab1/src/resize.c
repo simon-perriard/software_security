@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 
     new_img->px = malloc(new_width * new_height * sizeof(struct pixel));
 
-    if (!img->px || !new_img->px) {
+    if (!new_img->px) {
         goto error_memory_img;
     }
 
