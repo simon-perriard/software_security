@@ -46,17 +46,17 @@ int main(int argc, char *argv[])
 
     new_img->px = malloc(new_width * new_height * sizeof(struct pixel));
 
-    if (!img->px) {
+    if (!img->px || !new_img->px) {
         goto error_memory_img;
     }
 
     {
         struct pixel (*image_data)[width] = (struct pixel (*)[width])img->px;
-        struct pixel (*image_data_new)[new_width] = (struct pixel (*)[width])new_img->px;
+        struct pixel (*image_data_new)[new_width] = (struct pixel (*)[new_width])new_img->px;
 
         /* Iterate over all pixels in the new image and fill them with the nearest neighbor in the old one */
-        for (unsigned y = 0; y < round(factor*img->size_y); y++) {
-            for (unsigned x = 0; x < round(factor*img->size_x); x++) {
+        for (unsigned y = 0; y < new_height; y++) {
+            for (unsigned x = 0; x < new_width; x++) {
 
                 /* Calculate the location of the pixel in the old image */
                 unsigned nearest_x = x / factor;
@@ -84,7 +84,7 @@ error_memory_img:
     free(new_img);
 error_memory:
     free(img->px);
-    free(img->px);
+    free(img);
     printf("Memory error!");
     return 1;
 }
