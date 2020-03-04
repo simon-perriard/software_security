@@ -17,10 +17,10 @@ We expected that the user is not able to do anything else than generating an ima
 #### Command
 
 ```
-./solid solid.png&pwd 3 3 7ad5f9
+./solid solid.png"&pwd" 3 3 7ad5f9
 ```
 #### Proof-of-Concept Input (if needed)
 
 
 ### Suggested Fix Description
-Sanitize `output_name`.
+Stop the program if `output_name` contains any potentially dangerous character, i.e. stop the program if `output_name` contains anything else than alphanumeric characters, '.', '-' or '_' .

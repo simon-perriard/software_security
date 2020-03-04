@@ -1,10 +1,10 @@
 
 ### Name
-Free after jump
+Free after jump and brackets in if block
 
 ### Description
 
-Free is used after a `goto`, so the palette is never freed and we have a memory leak
+I an `if` block is used without bracket, only the first instruction under it will be seen as in the `if` block, so here the `free(palette)` will be executed although it shouldn't and cause a segfault afterwards. Free is used after a `goto`, so the palette is never freed and we have a memory leak.
 
 ### Affected Lines
 In `solid.c:49`
@@ -23,4 +23,5 @@ We expect to have a clean memory management. We observed that some allocated mem
 
 
 ### Suggested Fix Description
+put brackets to the if block
 free palette and then goto error

@@ -12,7 +12,7 @@ and write the fixes for these bugs.
 3. File a bug report for each bug, following the sample format below.
 
 Only bugs in the following files will count towards the grade in this lab:
-hello
+
 - `solid.c`
 - `checkerboard.c`
 - `filter.c`

@@ -35,6 +35,16 @@ int main(int argc, char *argv[])
     const char *hex_color_arg = argv[4];
     char *end_ptr;
 
+    for (size_t i = 0; i < strlen(output_name); i++) {
+
+        char e = output_name[i];
+        
+        if (!(isalnum(e) || e == '.' || e == '_' || e == '-')) {
+
+            goto error;
+        }
+    }
+    
     if (strlen(hex_color_arg) != 6) {
         goto error;
     }
@@ -44,10 +54,10 @@ int main(int argc, char *argv[])
     /* If the user provides negative height or the height is 0 and the end_ptr hasn't moved
      * we issue an error and free palette
      */
-    if (height < 0 || *end_ptr)
-        goto error;
+    if (height < 0 || *end_ptr) {
         free(palette);
-
+        goto error;
+    }
 
     long width = strtol(width_arg, &end_ptr, 10);
 
