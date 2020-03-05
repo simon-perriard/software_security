@@ -44,19 +44,30 @@ int main(int argc, char *argv[])
      * (x - center_x)^2 + (y - center_y)^2 = radius^2
      */
     for (int x = center_x - radius; x <= center_x + radius; x++) {
-        int y = round(center_y + sqrt(radius * radius - (x - center_x) * (x - center_x)));
 
-        image_data[y][x].red = (hex_color & 0xff0000) >> 16;
-        image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
-        image_data[y][x].blue = (hex_color & 0x0000ff);
-        image_data[y][x].alpha = 0xff;
+        if (x >= 0 && x < width) {
 
-        y = round(center_y - sqrt(radius * radius - (x - center_x) * (x - center_x)));
+            int y = round(center_y + sqrt(radius * radius - (x - center_x) * (x - center_x)));
 
-        image_data[y][x].red = (hex_color & 0xff0000) >> 16;
-        image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
-        image_data[y][x].blue = (hex_color & 0x0000ff);
-        image_data[y][x].alpha = 0xff;
+            if (y >= 0 && y < height) {
+
+                image_data[y][x].red = (hex_color & 0xff0000) >> 16;
+                image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
+                image_data[y][x].blue = (hex_color & 0x0000ff);
+                image_data[y][x].alpha = 0xff;
+
+            }
+
+            y = round(center_y - sqrt(radius * radius - (x - center_x) * (x - center_x)));
+
+            if (y >= 0 && y < height) {
+
+                image_data[y][x].red = (hex_color & 0xff0000) >> 16;
+                image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
+                image_data[y][x].blue = (hex_color & 0x0000ff);
+                image_data[y][x].alpha = 0xff;
+            }
+        }
     }
 
     /* There are going to be some ugly gaps in the image, so we will repeat the procedure
@@ -65,19 +76,29 @@ int main(int argc, char *argv[])
      * In practice a more efficient rasterization algorithm is used.
      */
     for (int y = center_y - radius; y <= center_y + radius; y++) {
-        int x = round(center_x + sqrt(radius * radius - (y - center_y) * (y - center_y)));
 
-        image_data[y][x].red = (hex_color & 0xff0000) >> 16;
-        image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
-        image_data[y][x].blue = (hex_color & 0x0000ff);
-        image_data[y][x].alpha = 0xff;
+        if (y >= 0 && y < height) {
+            int x = round(center_x + sqrt(radius * radius - (y - center_y) * (y - center_y)));
 
-        x = round(center_x - sqrt(radius * radius - (y - center_y) * (y - center_y)));
+            if (x >= 0 && x < width) {
 
-        image_data[y][x].red = (hex_color & 0xff0000) >> 16;
-        image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
-        image_data[y][x].blue = (hex_color & 0x0000ff);
-        image_data[y][x].alpha = 0xff;
+                image_data[y][x].red = (hex_color & 0xff0000) >> 16;
+                image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
+                image_data[y][x].blue = (hex_color & 0x0000ff);
+                image_data[y][x].alpha = 0xff;
+
+            }
+
+            x = round(center_x - sqrt(radius * radius - (y - center_y) * (y - center_y)));
+
+            if (x >= 0 && x < width) {
+
+                image_data[y][x].red = (hex_color & 0xff0000) >> 16;
+                image_data[y][x].green = (hex_color & 0x00ff00) >> 8;
+                image_data[y][x].blue = (hex_color & 0x0000ff);
+                image_data[y][x].alpha = 0xff;
+            }
+        }
     }
 
 
