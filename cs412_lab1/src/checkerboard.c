@@ -96,8 +96,8 @@ int main(int argc, char *argv[])
         struct pixel (*image_data)[width] = (struct pixel (*)[width])img->px;
 
         /* We segment the image into squares and fill each square with its color */
-        for (int i = 0; i < (height + square_width - 1)/square_width; i++) {
-            for (int j = 0; j < (width + square_width - 1)/square_width; j++) {
+        for (int i = 0; i <= (height + square_width)/square_width; i++) {
+            for (int j = 0; j <= (width + square_width)/square_width; j++) {
 
                 /* Calculate the color based on the square index */
                 int color = (i + j)%2;
@@ -106,9 +106,20 @@ int main(int argc, char *argv[])
                 int square_top_left_x = j * square_width;
                 int square_top_left_y = i * square_width;
 
+                int square_bound_x = square_width;
+                int square_bound_y = square_width;
+
+                if (square_top_left_x + square_width > width) {
+                    square_bound_x = width - square_top_left_x;
+                }
+
+                if (square_top_left_y + square_width > height) {
+                    square_bound_y = height - square_top_left_y;
+                }
+
                 /* This iterates over a square and fills it with the correct color */
-                for (int x = 0; x < square_width; x++) {
-                    for (int y = 0; y < square_width; y++) {
+                for (int x = 0; x < square_bound_x; x++) {
+                    for (int y = 0; y < square_bound_y; y++) {
                         image_data[square_top_left_y + y][square_top_left_x + x].red = palette[color].red;
                         image_data[square_top_left_y + y][square_top_left_x + x].green = palette[color].green;
                         image_data[square_top_left_y + y][square_top_left_x + x].blue = palette[color].blue;

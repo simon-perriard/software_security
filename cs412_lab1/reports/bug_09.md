@@ -23,4 +23,4 @@ We expected that the user is not able to do anything else than generating an ima
 
 
 ### Suggested Fix Description
-Stop the program if `output_name` contains any potentially dangerous character, i.e. stop the program if `output_name` contains anything else than alphanumeric characters, '.', '-' or '_' .
+Make a call to `lstat` instead of `system`.

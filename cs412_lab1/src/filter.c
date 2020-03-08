@@ -140,6 +140,10 @@ void filter_negative(struct image *img, void *noarg) {
       struct pixel current = image_data[i][j];
       struct pixel *neg = get_pixel();
 
+      if (!neg) {
+        exit(1);
+      }
+
       /* The negative is just the maximum minus the current value */
       neg->red = 255 - current.red;
       neg->green = 255 - current.green;
@@ -196,10 +200,10 @@ int main(int argc, char *argv[]) {
   fil.filter = NULL;
   fil.arg = NULL;
 
-  if ((strlen(argv[1]) > sizeof(input)) || 
-      (strlen(argv[2]) > sizeof(output)) || 
-      (strlen(argv[3]) > sizeof(command)) || 
-      ((argc == 5) && (strlen(argv[4]) > sizeof(arg)))) {
+  if ((strlen(argv[1]) >= sizeof(input)) || 
+      (strlen(argv[2]) >= sizeof(output)) || 
+      (strlen(argv[3]) >= sizeof(command)) || 
+      ((argc == 5) && (strlen(argv[4]) >= sizeof(arg)))) {
 
         exit(1);
   }

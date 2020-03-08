@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    if ((strlen(argv[1]) > sizeof(input)) ||
-        (strlen(argv[2]) > sizeof(output))) {
+    if ((strlen(argv[1]) >= sizeof(input)) ||
+        (strlen(argv[2]) >= sizeof(output))) {
         exit(1);
     }
 

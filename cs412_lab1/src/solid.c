@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "pngparser.h"
 
 /* We allocate the memory for the palette for this image */
@@ -14,6 +15,10 @@ int main(int argc, char *argv[])
 {
     struct image *img = NULL;
     struct pixel *palette = allocate_palette();
+
+    if (!palette) {
+        exit(1);
+    }
 
 /*
 * goto statements should be used only in two cases:
@@ -34,16 +39,6 @@ int main(int argc, char *argv[])
     const char *width_arg = argv[3];
     const char *hex_color_arg = argv[4];
     char *end_ptr;
-
-    for (size_t i = 0; i < strlen(output_name); i++) {
-
-        char e = output_name[i];
-        
-        if (!(isalnum(e) || e == '.' || e == '_' || e == '-')) {
-
-            goto error;
-        }
-    }
     
     if (strlen(hex_color_arg) != 6) {
         goto error;
@@ -55,7 +50,6 @@ int main(int argc, char *argv[])
      * we issue an error and free palette
      */
     if (height < 0 || *end_ptr) {
-        free(palette);
         goto error;
     }
 
@@ -113,6 +107,7 @@ int main(int argc, char *argv[])
     
     free(img->px);
     free(img);
+    free(palette);
 
     /* We want to inform user how big the new image is.
      * "stat -c %s filename" prints the size of the file
@@ -121,15 +116,16 @@ int main(int argc, char *argv[])
      */
     char command[512] = {0};
 
-    printf("Size: ");
-
     /* printf will write to the screen when it encounters a new line
      * By calling fflush we force the program to output "Size " right away
      */
-    fflush(stdout);
-    strcat(command, "stat -c %s ");
-    strncat(command, output_name, 500);
-    system(command);
+    struct stat st;
+
+    if (lstat(output_name, &st) == -1) {
+        exit(1);
+    }
+
+    printf("Size: %lld\n", st.st_size);
 
     return 0;
 
@@ -146,6 +142,7 @@ error_px:
 error_img:
     free(img);
 error_mem:
+    free(palette);
     printf("Couldn't allocate memory\n");
     return 1;
 }
