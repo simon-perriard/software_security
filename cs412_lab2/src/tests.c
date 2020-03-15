@@ -474,13 +474,48 @@ END_TEST
  * Then invert the result again and verify that you get a black image back
  * The alpha channel needs to be intact in both cases */
 START_TEST(negative_functionality) {
-  /* TODO: Implement */
+  struct image img;
+  do{  img.size_x = rand() % 512; } while(img.size_x == 0);
+  do{  img.size_y = rand() % 512; } while(img.size_y == 0);
+  img.px = malloc(img.size_x * img.size_y * sizeof(struct pixel));
+  if(img.px == NULL)
+    assert(0 && "Rerun test, malloc failed");
+  for(long i = 0; i < img.size_y * img.size_x; i++) {
+    img.px[i].red = 0;
+    img.px[i].green = 0;
+    img.px[i].blue = 0;
+    img.px[i].alpha = 128;
+  }
+
+  // First inversion: result should be all white and alpha untouched
+  filter_negative(&img, NULL);
+  for(long i = 0; i < img.size_y * img.size_x; i++) {
+    ck_assert_uint_eq(img.px[i].red, 255);
+    ck_assert_uint_eq(img.px[i].green, 255);
+    ck_assert_uint_eq(img.px[i].blue, 255);
+    ck_assert_uint_eq(img.px[i].alpha, 128);
+  }
+
+  // Second inversion: result shoul dbe all black and alpha untouched
+  filter_negative(&img, NULL);
+  for(long i = 0; i < img.size_y * img.size_x; i++) {
+    ck_assert_uint_eq(img.px[i].red, 0);
+    ck_assert_uint_eq(img.px[i].green, 0);
+    ck_assert_uint_eq(img.px[i].blue, 0);
+    ck_assert_uint_eq(img.px[i].alpha, 128);
+  }
+
+  free(img.px);
 }
 END_TEST
 
 /* Check if the filter doesn't crash when we pass a 0x0 image */
 START_TEST(negative_zero_size) {
-  /* TODO: Implement */
+  struct image img;
+  img.size_x = 0;
+  img.size_y = 0;
+  
+  filter_negative(&img, NULL);
 }
 END_TEST
 
