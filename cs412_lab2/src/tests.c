@@ -527,7 +527,60 @@ START_TEST(blur_functionality) {
   struct pixel px[3][3] = {{black, black, black}, {black, white, black}, {black, black, black}};
   struct image img = {3, 3, &px};
 
-  /* TODO: Implement */
+  struct image img0 = duplicate_img(img);
+  struct image img1 = duplicate_img(img);
+  struct image img2 = duplicate_img(img);
+  struct image img3 = duplicate_img(img);
+
+  int radius = 0;
+  filter_blur(&img0, &radius);
+  radius = 1;
+  filter_blur(&img1, &radius);
+  radius = 2;
+  filter_blur(&img2, &radius);
+  radius = 3;
+  filter_blur(&img3, &radius);
+
+  // For radius 0: no change
+  for (long i = 0; i < img.size_x * img.size_y; i++) {
+    ck_assert_uint_eq(img0.px[i].red,   img.px[i].red);
+    ck_assert_uint_eq(img0.px[i].green, img.px[i].green);
+    ck_assert_uint_eq(img0.px[i].blue,  img.px[i].blue);
+    ck_assert_uint_eq(img0.px[i].alpha, img.px[i].alpha);
+  }
+
+  // For radius 1: there is an expected result
+  struct pixel dark0 = {28, 28, 28, 255};
+  struct pixel dark1 = {42, 42, 42, 255};
+  struct pixel dark2 = {63, 63, 63, 255};
+  struct pixel res1_px[3][3] = {{dark2, dark1, dark2}, {dark1, dark0, dark1}, {dark2, dark1, dark2}};
+  struct image res1_img = {3, 3, res1_px};
+
+  for (long i = 0; i < res1_img.size_x * res1_img.size_y; i++) {
+    ck_assert_uint_eq(img1.px[i].red,   res1_img.px[i].red);
+    ck_assert_uint_eq(img1.px[i].green, res1_img.px[i].green);
+    ck_assert_uint_eq(img1.px[i].blue,  res1_img.px[i].blue);
+    ck_assert_uint_eq(img1.px[i].alpha, res1_img.px[i].alpha);
+  }
+
+  // For radii 2 and 3: all pixels should be dark0
+  struct pixel res23_px[3][3] = {{dark0,dark0,dark0}, {dark0,dark0,dark0}, {dark0,dark0,dark0}};
+  struct image res23_img = {3, 3, res23_px};
+
+  for (long i = 0; i < res23_img.size_x * res23_img.size_y; i++) {
+    // Radius 2
+    ck_assert_uint_eq(img2.px[i].red,   res23_img.px[i].red);
+    ck_assert_uint_eq(img2.px[i].green, res23_img.px[i].green);
+    ck_assert_uint_eq(img2.px[i].blue,  res23_img.px[i].blue);
+    ck_assert_uint_eq(img2.px[i].alpha, res23_img.px[i].alpha);
+
+    // Radius 3
+    ck_assert_uint_eq(img3.px[i].red,   res23_img.px[i].red);
+    ck_assert_uint_eq(img3.px[i].green, res23_img.px[i].green);
+    ck_assert_uint_eq(img3.px[i].blue,  res23_img.px[i].blue);
+    ck_assert_uint_eq(img3.px[i].alpha, res23_img.px[i].alpha);
+  }
+
 }
 END_TEST
 
