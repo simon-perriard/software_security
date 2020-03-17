@@ -466,7 +466,33 @@ char *grayscale_output[] = {
 };
 START_TEST(grayscale_examples) {
   double weights[] = {0.2125, 0.7154, 0.0721};
-  /* TODO: Implement */
+  
+  struct image *img, *img_gray, img_dup;
+  ck_assert_int_eq(load_png(grayscale_sources[_i], &img), 0);
+  img_dup = duplicate_img(*img);
+  filter_grayscale(img, weights);
+
+  /* Compare with good image*/
+  ck_assert_int_eq(load_png(grayscale_output[_i], &img_gray), 0);
+
+  ck_assert_uint_eq(img_gray->size_x, img->size_x);
+  ck_assert_uint_eq(img_gray->size_x, img->size_x);
+
+  for (long j = 0; j < img->size_x * img->size_y; j++) { 
+    ck_assert_uint_eq(img_gray->px[j].red, img->px[j].red);
+    ck_assert_uint_eq(img_gray->px[j].green, img->px[j].green);
+    ck_assert_uint_eq(img_gray->px[j].blue, img->px[j].blue);
+    ck_assert_uint_eq(img_gray->px[j].alpha, img->px[j].alpha);
+
+    ck_assert_uint_eq(img_dup.px[j].alpha, img->px[j].alpha);
+  }
+
+  free(img_dup.px);
+  free(img_gray->px);
+  free(img->px);
+  free(img_gray);
+  free(img);
+
 }
 END_TEST
 
@@ -667,6 +693,7 @@ int main() {
   /* Tests for functionality */
   tcase_add_test(tc2, grayscale_functionality);
   /* TODO: Add looped test case for grayscale_examples */
+  tcase_add_loop_test(tc2, grayscale_examples, 0, sizeof(grayscale_sources) / sizeof(grayscale_sources[0]));
   tcase_add_test(tc2, negative_functionality);
   tcase_add_test(tc2, blur_functionality);
   tcase_add_test(tc2, transparency_functionality);
