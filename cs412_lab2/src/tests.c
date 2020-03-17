@@ -594,14 +594,22 @@ END_TEST
 
 /* Verify for a random image that the transparency filter works properly */
 START_TEST(transparency_functionality) {
-  /* TODO: Implement */
+  struct image img = generate_rand_img();
+  uint8_t alpha = rand();
+
+  filter_transparency(&img, &alpha);
+
+  for (int i = 0; i < img.size_x * img.size_y; i++){
+    ck_assert_uint_eq(img.px[i].alpha, alpha);
+  }
 }
 END_TEST
 
 /* Check if the function crashes when we pass nullptr as the argument */
 START_TEST(transparency_edge_case) {
-  /* TODO: Implement */
+  uint8_t alpha = rand();
 
+  filter_transparency(NULL, &alpha);
 }
 END_TEST
 
