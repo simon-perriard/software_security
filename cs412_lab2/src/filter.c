@@ -230,6 +230,17 @@ void filter_edge_detect(struct image *img, void *threshold_arg){
 
 }
 
+/* Returns 0 if pixel are the same, not 0 otherwise 
+*/
+int compare_rgb(struct pixel *px1, struct pixel *px2) {
+    
+    int same = px1->red == px2->red ? 0 : 1;
+    same += px1->green == px2->green ? 0 : 1;
+    same += px1->blue == px2->blue ? 0 : 1;
+
+    return same;
+}
+
 /* This filter performs keying, replacing the color specified by the argument
  * by a transparent pixel */
 void filter_keying(struct image *img, void *key_color){
@@ -239,7 +250,9 @@ void filter_keying(struct image *img, void *key_color){
     /* Iterate over all pixels */
     for (long i = 0; i < img->size_y; i++) {
         for (long j = 0; j < img->size_x; j++) {
-            /* TODO: Implement */
+            if(!compare_rgb) {
+                image_data[i][j].alpha = 0;
+            }
         }
     }
 }
