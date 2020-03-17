@@ -588,7 +588,36 @@ END_TEST
  * for the radius (INT_MIN, INT_MAX, 0, image_width, image_height, all of the previous values divided by 2,
  * all of the previous values +- 1) */
 START_TEST(blur_radius_edge_cases) {
-  /* TODO: Implement */
+  struct image img = generate_rand_img();
+  int edge_values[5] = {INT_MIN, INT_MAX, 0, img.size_x, img.size_y};
+  
+  for (int i = 0; i < 5; i++){
+    for (int j = 0; j < 4; j++){
+      struct image img0 = duplicate_img(img);
+      int r;
+
+      switch (j)
+      {
+      case 0:
+        r = edge_values[i];
+        break;
+      case 1:
+        r = edge_values[i]/2;
+        break;
+
+      case 2:
+        r = edge_values[i] + 1;
+        break;
+      
+      default:
+        r = edge_values[i] - 1;
+        break;
+      }
+
+      filter_blur(&img, &r);
+
+    }
+  }
 }
 END_TEST
 
