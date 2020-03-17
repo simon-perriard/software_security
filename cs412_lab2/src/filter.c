@@ -134,6 +134,11 @@ void filter_transparency(struct image *img, void *transparency)
     }
 }
 
+uint8_t min(uint16_t a, uint16_t b){
+
+    return a < b ? a : b;
+}
+
 /* This filter applies a sepia tone to the input image. The depth argument controls
  * the magnitude of the sepia effect. The formula for each pixel is:
  * average = (r + g + b) / 3
@@ -148,7 +153,14 @@ void filter_sepia(struct image *img, void *depth_arg) {
     /* Iterate over all pixels */
     for (long i = 0; i < img->size_y; i++) {
         for (long j = 0; j < img->size_x; j++) {
-            /* TODO: Implement */
+            uint8_t r = image_data[i][j].red;
+            uint8_t g = image_data[i][j].green;
+            uint8_t b = image_data[i][j].blue;
+            uint16_t ave = (r + g + b)/3;
+
+            image_data[i][j].red = min(ave + 2 * depth, 255);
+            image_data[i][j].green = min(ave + depth, 255);
+            image_data[i][j].blue = min(ave, 255);
         }
     }
 }
