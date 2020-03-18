@@ -3,6 +3,9 @@
 #include "pngparser.h"
 #include <math.h>
 
+#define MAX(X,Y) (((X)<(Y))?(Y):(X))
+#define MIN(X,Y) (((X)<(Y))?(X):(Y))
+
 /* This filter iterates over the image and calculates the average value of the color channels for every pixel
  * This value is then written to all the channels to get the grayscale representation of the image
  */
@@ -221,13 +224,60 @@ void filter_edge_detect(struct image *img, void *threshold_arg){
     double weights_x[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
     double weights_y[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
 
+    struct pixel (*new_image)[img->size_x]= malloc(img->size_x * img->size_y * sizeof(struct pixel));
+    if (!new_image) {
+        printf("Malloc failed");
+        fflush(stdout);
+        exit(1);
+    }
+
     /* Iterate over all pixels */
     for (long i = 0; i < img->size_y; i++) {
         for (long j = 0; j < img->size_x; j++) {
-            /* TODO: Implement */
+
+            uint8_t alpha = image_data[i][j].alpha;
+            
+           double x_grad_red = 0, x_grad_green = 0, x_grad_blue = 0;
+           double y_grad_red = 0, y_grad_green = 0, y_grad_blue = 0;
+
+            for (int k = 0; k < 3; k++) {
+                for (int l = 0; l < 3; l++) {
+
+                        int coord_y = MAX(0, MIN(i+k-1, img->size_y-1));
+                        int coord_x = MAX(0, MIN(j+l-1, img->size_x-1));
+
+                        x_grad_red += weights_x[k][l] * image_data[coord_y][coord_x].red;
+                        x_grad_green += weights_x[k][l] * image_data[coord_y][coord_x].green;
+                        x_grad_blue += weights_x[k][l] * image_data[coord_y][coord_x].blue;
+
+                        y_grad_red += weights_y[k][l] * image_data[coord_y][coord_x].red;
+                        y_grad_green += weights_y[k][l] * image_data[coord_y][coord_x].green;
+                        y_grad_blue += weights_y[k][l] * image_data[coord_y][coord_x].blue;
+                }
+            }
+
+            uint16_t grad_red = sqrt(pow(x_grad_red, 2) + pow(y_grad_red, 2));
+            uint16_t grad_green = sqrt(pow(x_grad_green, 2) + pow(y_grad_green, 2));
+            uint16_t grad_blue = sqrt(pow(x_grad_blue, 2) + pow(y_grad_blue, 2));
+
+            uint16_t grad = sqrt(pow(grad_red, 2) + pow(grad_green, 2) + pow(grad_blue, 2));
+
+            
+            if (grad > threshold) {
+                new_image[i][j].red = 0;
+                new_image[i][j].green = 0;
+                new_image[i][j].blue = 0;
+            }else{
+                new_image[i][j].red = 255;
+                new_image[i][j].green = 255;
+                new_image[i][j].blue = 255;
+            }
+            new_image[i][j].alpha = alpha;
         }
     }
 
+    img->px = new_image;
+    free(image_data);
 }
 
 /* Returns 0 if pixel are the same, not 0 otherwise 
@@ -237,6 +287,7 @@ int compare_rgb(struct pixel *px1, struct pixel *px2) {
     int same = px1->red == px2->red ? 0 : 1;
     same += px1->green == px2->green ? 0 : 1;
     same += px1->blue == px2->blue ? 0 : 1;
+    same += px1->alpha == px2->alpha ? 0 : 1;
 
     return same;
 }
@@ -250,7 +301,7 @@ void filter_keying(struct image *img, void *key_color){
     /* Iterate over all pixels */
     for (long i = 0; i < img->size_y; i++) {
         for (long j = 0; j < img->size_x; j++) {
-            if(!compare_rgb) {
+            if(!compare_rgb(&image_data[i][j], &key)) {
                 image_data[i][j].alpha = 0;
             }
         }
