@@ -1,0 +1,10 @@
+Direct leak of 10100 byte(s) in 1 object(s) allocated from:
+    #0 0x512730 in realloc (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x512730)
+    #1 0x54d6ea in decompress_png_data /home/simon/Desktop/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:388:25
+    #2 0x550a36 in load_png /home/simon/Desktop/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:687:9
+    #3 0x54a984 in LLVMFuzzerTestOneInput /home/simon/Desktop/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png.c:20:3
+    #4 0x42ebc7 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42ebc7)
+    #5 0x41f05a in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41f05a)
+    #6 0x42a020 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42a020)
+    #7 0x41cd22 in main (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41cd22)
+    #8 0x7f95e4d6bb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
