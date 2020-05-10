@@ -23,3 +23,9 @@ We expect the program to put at NULL a pointer that could be reused later on so 
 
 #### Suggested Fix Description
 Assign NULL to pointer before returning.
+```
+if (chunk->chunk_data) {
+    free(chunk->chunk_data);
+    chunk->chunk_data = NULL;
+}
+```

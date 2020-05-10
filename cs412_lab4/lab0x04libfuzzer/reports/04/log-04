@@ -1,0 +1,31 @@
+INFO: Seed: 2817605688
+INFO: Loaded 1 modules   (241 inline 8-bit counters): 241 [0x7973f0, 0x7974e1), 
+INFO: Loaded 1 PC tables (241 PCs): 241 [0x572d78,0x573c88), 
+INFO:       84 files found in ../seeds/
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 84 min: 1b max: 4096b total: 83464b rss: 37Mb
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==19809==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fe98113e8be bp 0x000000000008 sp 0x7ffed49cfc30 T0)
+==19809==The signal is caused by a READ memory access.
+==19809==Hint: address points to the zero page.
+    #0 0x7fe98113e8bd in fwrite /build/glibc-OTsEL5/glibc-2.27/libio/iofwrite.c:35
+    #1 0x4d4546 in __interceptor_fwrite.part.51 (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x4d4546)
+    #2 0x55197c in store_filesig /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:774:12
+    #3 0x556efb in store_png /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:1066:5
+    #4 0x54a94e in LLVMFuzzerTestOneInput /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name.c:15:3
+    #5 0x42ebc7 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x42ebc7)
+    #6 0x4372c0 in fuzzer::Fuzzer::RunOne(unsigned char const*, unsigned long, bool, fuzzer::InputInfo*, bool*) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x4372c0)
+    #7 0x4388c6 in fuzzer::Fuzzer::ReadAndExecuteSeedCorpora(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, fuzzer::fuzzer_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x4388c6)
+    #8 0x43a972 in fuzzer::Fuzzer::Loop(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, fuzzer::fuzzer_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x43a972)
+    #9 0x429e5c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x429e5c)
+    #10 0x41cd22 in main (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x41cd22)
+    #11 0x7fe9810e0b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #12 0x41cd99 in _start (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_store_png_name+0x41cd99)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /build/glibc-OTsEL5/glibc-2.27/libio/iofwrite.c:35 in fwrite
+==19809==ABORTING
+MS: 0 ; base unit: 0000000000000000000000000000000000000000
+artifact_prefix='./'; Test unit written to ./crash-bd904a8f5b461f5f06a14860de0e27c315ba121a
+

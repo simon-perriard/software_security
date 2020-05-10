@@ -1,5 +1,5 @@
 #### Name
-Closing unexisting file
+Closing missing file
 
 #### Description
 
@@ -9,7 +9,7 @@ When the file does not exist, the program still tries to close it.
 In `pngparser.c:713`
 
 #### Expected vs Observed
-We expect the program not to close an unexisting file and exit without error. We observed a segfault.
+We expect the program not to close an missing file and exit without segfault. We observed a segfault.
 
 #### Steps to Reproduce
 
@@ -23,3 +23,8 @@ We expect the program not to close an unexisting file and exit without error. We
 
 #### Suggested Fix Description
 Check whether input is NULL before closing the file.
+```
+if (input) {
+  fclose(input);
+}
+```

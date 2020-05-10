@@ -1,0 +1,10 @@
+Direct leak of 6 byte(s) in 1 object(s) allocated from:
+    #0 0x5122b0 in __interceptor_malloc (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x5122b0)
+    #1 0x54c220 in read_png_chunk /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:277:29
+    #2 0x55004c in load_png /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:589:12
+    #3 0x54a984 in LLVMFuzzerTestOneInput /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png.c:20:3
+    #4 0x42ebc7 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42ebc7)
+    #5 0x41f05a in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41f05a)
+    #6 0x42a020 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42a020)
+    #7 0x41cd22 in main (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41cd22)
+    #8 0x7f301d32eb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310

@@ -9,7 +9,7 @@ A pointer is never freed and leaks memory.
 In `pngparser.c:711`, `pngparser.c:730`
 
 #### Expected vs Observed
-We expect the program not to leak memory and free all the pointers. We observed that the pointer inflated_buf was never freed in load_png.
+We expect the program not to leak memory and free all the pointers. We observed that the pointer plte_chunk->chunk_data was never freed in load_png.
 
 #### Steps to Reproduce
 
@@ -23,6 +23,13 @@ We expect the program not to leak memory and free all the pointers. We observed 
 
 #### Suggested Fix Description
 Check whether input is NULL and free it if its not before return.
+```
+if (plte_chunk) {
+        
+        if (plte_chunk->chunk_data) {
+            free(plte_chunk->chunk_data);
+        }
 
-if (inflated_buf) free(inflated_buf);
-
+        free(plte_chunk);
+    }
+```

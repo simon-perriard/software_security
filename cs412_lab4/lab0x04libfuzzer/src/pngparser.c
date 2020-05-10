@@ -710,17 +710,26 @@ int load_png(const char *filename, struct image **img)
     }
 
     if (plte_chunk) {
+        
         if (plte_chunk->chunk_data) {
             free(plte_chunk->chunk_data);
         }
+        
         free(plte_chunk);
     }
 
+    if (ihdr_chunk) {
+        
+        if (ihdr_chunk->chunk_data) {
+            free(ihdr_chunk->chunk_data);
+        }
 
-    free(ihdr_chunk);
+        free(ihdr_chunk);
+    }
 
     return 0;
 error:
+    
     if (input) {
         fclose(input);
     }
@@ -739,13 +748,22 @@ error:
     }
 
     if (plte_chunk) {
+        
         if (plte_chunk->chunk_data) {
             free(plte_chunk->chunk_data);
         }
+        
         free(plte_chunk);
     }
 
-    free(ihdr_chunk);
+    if (ihdr_chunk) {
+        
+        if (ihdr_chunk->chunk_data) {
+            free(ihdr_chunk->chunk_data);
+        }
+
+        free(ihdr_chunk);
+    }
 
     return 1;
 }
@@ -1044,6 +1062,10 @@ int store_png(const char *filename, struct image *img, struct pixel *palette, ui
 {
     int result = 0;
     FILE *output = fopen(filename, "wb");
+
+    if (!output) {
+        return 1;
+    }
 
     store_filesig(output);
 

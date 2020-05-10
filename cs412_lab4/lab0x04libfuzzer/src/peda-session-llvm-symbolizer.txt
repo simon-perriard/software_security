@@ -1,3 +1,0 @@
-break pngparser.c:907
-disable $bpnum
-

@@ -1,0 +1,43 @@
+INFO: Seed: 1568697024
+INFO: Loaded 1 modules   (241 inline 8-bit counters): 241 [0x797430, 0x797521), 
+INFO: Loaded 1 PC tables (241 PCs): 241 [0x572e38,0x573d48), 
+./fuzzer_load_png: Running 1 inputs 1 time(s) each.
+Running: ../reports/03/crash-d763581c0cd02ca1547a74b25aff5b327f6f9071
+=================================================================
+==19008==ERROR: AddressSanitizer: attempting double-free on 0x602000000010 in thread T0:
+    #0 0x5120e0 in __interceptor_free.localalias.0 (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x5120e0)
+    #1 0x55156f in load_png /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:742:13
+    #2 0x54a984 in LLVMFuzzerTestOneInput /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png.c:20:3
+    #3 0x42ebc7 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42ebc7)
+    #4 0x41f05a in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41f05a)
+    #5 0x42a020 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42a020)
+    #6 0x41cd22 in main (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41cd22)
+    #7 0x7f646ea28b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #8 0x41cd99 in _start (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41cd99)
+
+0x602000000010 is located 0 bytes inside of 13-byte region [0x602000000010,0x60200000001d)
+freed by thread T0 here:
+    #0 0x5120e0 in __interceptor_free.localalias.0 (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x5120e0)
+    #1 0x54cc2f in read_png_chunk /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:301:28
+    #2 0x55012c in load_png /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:589:12
+    #3 0x54a984 in LLVMFuzzerTestOneInput /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png.c:20:3
+    #4 0x42ebc7 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42ebc7)
+    #5 0x41f05a in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41f05a)
+    #6 0x42a020 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42a020)
+    #7 0x41cd22 in main (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41cd22)
+    #8 0x7f646ea28b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+previously allocated by thread T0 here:
+    #0 0x5122b0 in __interceptor_malloc (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x5122b0)
+    #1 0x54c300 in read_png_chunk /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:277:29
+    #2 0x55012c in load_png /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/pngparser.c:589:12
+    #3 0x54a984 in LLVMFuzzerTestOneInput /home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png.c:20:3
+    #4 0x42ebc7 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42ebc7)
+    #5 0x41f05a in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41f05a)
+    #6 0x42a020 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x42a020)
+    #7 0x41cd22 in main (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x41cd22)
+    #8 0x7f646ea28b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+
+SUMMARY: AddressSanitizer: double-free (/home/simon/Documents/EPFL/Master/MA2/Software Security/Labs/software_security/cs412_lab4/lab0x04libfuzzer/src/fuzzer_load_png+0x5120e0) in __interceptor_free.localalias.0
+==19008==ABORTING
+

@@ -23,4 +23,13 @@ We expect the program not to leak memory and free all the pointers. We observed 
 
 #### Suggested Fix Description
 Check whether input is NULL and free it if its not before return.
+```
+if (ihdr_chunk) {
+        
+        if (ihdr_chunk->chunk_data) {
+            free(ihdr_chunk->chunk_data);
+        }
 
+        free(ihdr_chunk);
+    }
+```
