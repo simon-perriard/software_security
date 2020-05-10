@@ -5,7 +5,7 @@
 //
 int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
 
-  if (Size < 1000) {
+  if (Size < 1000) { //otherwise bug in fopen
     return 0;
   }
 
