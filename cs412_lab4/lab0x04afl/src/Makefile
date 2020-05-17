@@ -1,4 +1,4 @@
-CC = alf- gcc
+CC = afl-gcc
 CFLAGS = -g #-w -O3
 
 all: libpngparser size

@@ -8,26 +8,23 @@
 // LibFuzzer stub
 
 int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
-    struct image *test_img;
+    struct image test_img;
 
-    if(Size < 5){
+    if(Size < 440){ // at least enough to contain img data + palette
         return 0;
     }
 
-    //cut Data to fill required inputs
-    struct pixel * palette = malloc(sizeof(struct pixel));
-    palette->red = Data[Size-2];
-    palette->blue = Data[Size-3];
-    palette->green = Data[Size-4];
-    palette->alpha = Data[Size-5];
+    test_img.size_x = 10;
+    test_img.size_y = 10;
 
-    uint8_t *Data_image = malloc((Size -5) * sizeof(uint8_t));
-    memcpy(Data_image, Data, (Size -5));
+    uint8_t size_palette = 10;
 
-    uint8_t size_palette = Data[Size-1];
+    test_img.px = Data; //10*10*4 bytes of images data
+
+    struct pixel *palette = Data + 10*10*4; // palette has 10*4 bytes
 
 
-    store_png("test.png", Data_image, palette, size_palette);
+    store_png("test.png", &test_img, palette, size_palette);
 
     // Always return 0
     return 0;
