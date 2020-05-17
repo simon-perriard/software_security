@@ -5,7 +5,7 @@ CFLAGS=-g -fsanitize=fuzzer,address
 all: libpngparser fuzzer_load_png fuzzer_load_png_name fuzzer_store_png_rgba fuzzer_store_png_palette fuzzer_store_png_name
 
 clean:
-	rm -f libpngparser.a fuzzer_load_png *.o
+	rm -f libpngparser.a fuzzer_load_png *.o fuzzer_load_png fuzzer_load_png_name fuzzer_store_png_rgba fuzzer_store_png_palette fuzzer_store_png_name
 
 .PHONY: all clean fix_all_bugs tests
 
